@@ -1,13 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-// 유저의 경험치를 저장할 때 사용하는 스택 저장소.
-// 공개 메소드를 통해서 다른 객체와 소통하고, 객체의 상태는 감춘다.
-// UML을 공부하지 않더라도 공개해야 할 기능이 무엇인지부터 생각해보고 코드를 짜면 꽤나 깔끔하게 짤 수 있다.
-// 우리가 지금 이렇게 배우는 건 코딩 테스트 통과하기 위함. 원칙적으로 좋은 공부는 스스로 고민해보는 것. 하지만 우리는 시간이 없어서 이렇게 한다.
-    internal class ExpStack<T>
+// 미로 탐색에 활용할 스택 클래스.
+public class MazeStack<T>
 {
     // 필드.(필드는 감추기).
     // 현재 스택에 저장된 요소의 수.
@@ -22,7 +15,7 @@ using System.Threading.Tasks;
     // 스택이 가득 찼는지를 알려주는 메소드/프로퍼티 (IsFull).
     // 스택에 현재 저장된 요소의 수가 스택이 저장할 수 있는 크기와 같은지를 비교.
     // List인 경우에는 가득차면 확장될 것이기 때문에 의미가 없다.
-    public bool IsFull { get {return count == maxCapacity; } }
+    public bool IsFull { get { return count == maxCapacity; } }
 
     // 스택이 비었는지를 알려주는 메소드/프로퍼티 (IsEmthy).
     // count 값이 0인지 확인.
@@ -34,8 +27,8 @@ using System.Threading.Tasks;
 
     // 메시지 (공개 메소드).
     // 객체 생성.
-    public ExpStack() 
-    { 
+    public MazeStack()
+    {
         // 초기화 - Initialization = Initialize = (Init).
         count = 0;
         data = new T[maxCapacity];
