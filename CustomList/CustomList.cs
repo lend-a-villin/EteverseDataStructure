@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,11 +7,18 @@ using System.Threading.Tasks;
 using System.Xml;
 // 동적 배열을 구현하는 클래스.
 // Dynamic Array
-public class CustomList<T>
+public class CustomList<T> : IEnumerator
 {
+    public object Current { get {  return current; } }
+
     private T[] data;
     private int size = 0;       // 리스트의 크기를 추적해서 저장할 변수.
     private int capacity = 2;   // 리스트가 현재의 크기에서 저장할 수 있는 실제 크기. 동적 배열의 비밀은 여기에 있다. 다수가 2로 하는데 4로 설정하는 경우도 있다. 이렇게 하면 데이터라는 저장 자리가 2개가 확보된다. 0 인덱스와 1 인덱스로. 처음 상태로 출력하면 사이즈가 0칸이라고 나온다. 실제로는 2 칸 넣을 수 있음에도. add로 1개만 넣으면 사이즈가 1칸이라고 나온다. 거기에 하나 더 넣으면 이제 사이즈가 2 칸이 나온다. 사이즈가 캐퍼시티와 같아지면 확장하게 만든다. 그러면 캐퍼시티는 4가 되고, 사이즈는 3칸이 나온다. 그렇게 또 넘기면 더 확보하고 기존 데이터를 옮겨오고 입력받은 값을 저장한다. 이걸 반복하는 것이다. 성능에서 유일하게 안 좋을 때는 크기가 변할 때다. 그런데 크기가 변할 때는 처음에 자료 세팅할 때 정도 외에는 거의 없다. 배열의 장점은 얻었지만, 크기가 바뀔 때는 메모리에서 이사를 다녀야 해서 그 때만 성능이 떨어진다. 그래서 자료구조에 사이즈가 자주 변할 일이 없다면 리스트를 사용하면 된다. 왜냐하면 안 변할 때는 어레이와 거의 성능 차가 없으니까. C#에서 Count가~. 확장할 때 얼마나 확장해줄지도 우리가 정해야 한다.2배씩 올라가면 데이터 삽입 횟수가 올라가면 이사 횟수가 줄어서 좋다. 하지만 데이터 삽입이 빈번하지 않으면, 남은 공간이 낭비되는 기간이 길어지게 된다. 1.5배와 2배 중에 골라서 쓰는데 대부분 2배를 고른다.
+    
+    // GetEnumerator 구현에 필요한 변수.
+    private int index = 0;
+    private T current;
+
     // 생성자가 필요하다. 문자열이 이런 방식을 활용해서 저장하고 불러온다.
     public CustomList() 
     { 
@@ -119,6 +127,39 @@ public class CustomList<T>
         data[size - 1] = default(T); //C#은 값타입과 참조 타입으로 나뉘는데, 참조의 경우에는 기본 값이 null이다. 근데 null과 0을 우리가 어느 하나 지정해서 넣어줄 수 없다. 그래서 c#에게 기본 값을 알아서 넣어달라고 하는 것이다. C++는 0 넣으면 참조일 경우에 null로 읽혀서 상관이 없다.
         size--;
         return true;
+    }
+
+    // 리스트에서 다음 위치에 있는 요소가 있으면 true를 반환하고,
+    // 없으면 false를 반환하면서 current 변수에 현재 위치의 요소를 설정하는 함수.
+    public bool MoveNext()
+    {
+        if (index  < size)
+        {
+            // 현재 위치의 요소를 할당.
+            current = data[index];
+
+            // 다음 위치를 가리키기 위해 인덱스 증가.
+            index++;
+
+            // 다음으로 이동이 가능하다고 true 반환.
+            return true; 
+        }
+        return false;
+    }
+
+    // Ienumerator 초기화.
+    public void Reset()
+    {
+        index = 0;
+        current = default(T);
+    }
+
+    // foreach에서 무브 넥스트 하고 커런트를 읽는 식으로 반복한다. 
+
+    public IEnumerator GetEnumerator()
+    {
+        Reset();
+        return this;
     }
 
     // 길이 확인.

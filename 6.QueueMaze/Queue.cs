@@ -62,7 +62,7 @@ public class Queue<T>
         // 데이터를 삽입할 다음 위치를 구한 뒤에 데이터 삽입.
         rear = (rear + 1) % capacity;
         data[rear] = value;
-
+        size++;
         return true;
     }
 
@@ -81,7 +81,7 @@ public class Queue<T>
         front = (front + 1) % capacity;
         value = data[front];
         data[front] = default(T);
-
+        size--;
         return true;
     }
 
