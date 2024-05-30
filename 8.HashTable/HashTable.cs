@@ -62,6 +62,18 @@ public class HashTable<TKey, TValue>
 
         // 검색.
         // 여기선 var를 쓰면 안 된다. 형 변환을 명확하게 하라고 지정해줘야 한다.
+        // foreach 대신 for를 사용할 수도 있다.
+        // 단, 가독성은 foreach가 더 좋다.
+        //for (int ix = 0; ix < position.Count; ++ix)
+        //{
+        //    if (position[ix].Data.Key.Equals(key) == true)
+        //    {
+        //        position.DeleteNode(position[ix].Data);
+        //        Console.WriteLine($"키: {key} 항목이 삭제되었습니다.");
+        //        return;
+        //    }
+        //}
+
         foreach (LinkedList<Pair<TKey, TValue>>.Node node in list)
         {
             // 삭제하려는 키를 가진 데이터가 있는지 확인 후 있으면 삭제.
@@ -100,6 +112,17 @@ public class HashTable<TKey, TValue>
             return false;
         }
         // 여기선 var를 쓰면 안 된다. 형 변환을 명확하게 하라고 지정해줘야 한다.
+        // 여기서도 for를 쓸 수 있다.
+        //for (int ix = 0; ix < table[bucketIndex].Count; ++ix)
+        //{
+        //    if (table[bucketIndex][ix].Data.Key.Equals(key) == true)
+        //    {
+        //        outValue = table[bucketIndex][ix].Data.Value;
+        //        return true;
+        //    }
+        //}
+        // 가독성은 foreach가 좋다.
+
         foreach (LinkedList<Pair<TKey, TValue>>.Node node in list)
         {
             // 검색하려는 키를 가진 데이터가 있는지 확인 후 있으면 값 돌려주기.
@@ -186,6 +209,9 @@ public class HashTable<TKey, TValue>
         for (int ix = 0; ix < chars.Length; ++ix)
         {
             // 해시 생성 알고리즘.
+            //key += chars[ix] * (ix + 1);
+            // 바로 위 주석처럼 작성하면 충돌 날 가능성이 크다.
+            // 아래는 자바스크립트에서 쓰는 방식인데, 검증된 것이라 가져왔다. 물론 충돌이 완전히 없는 것은 아니다.
             hash = hash * 31 + chars[ix];
         }
         // 양수로 만들어서 반환.

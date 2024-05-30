@@ -31,28 +31,39 @@
         // 해시테이블 객체 생성.
         HashTable<string, string> table = new HashTable<string, string>();
 
-        // 데이터 추가.
-        table.Add("Ronnie", "020-2081-1224");
-        table.Add("Ronnie", "020-2231-1224");
-        table.Add("Kevin", "020-3352-3263");
-        table.Add("Baker", "020-3277-1356");
-        table.Add("Taejun", "020-9374-8923");
+        //// 데이터 추가.
+        //table.Add("Ronnie", "020-2081-1224");
+        //table.Add("Ronnie", "020-2231-1224");
+        //table.Add("Kevin", "020-3352-3263");
+        //table.Add("Baker", "020-3277-1356");
+        //table.Add("Taejun", "020-9374-8923");
 
-        // 출력.
-        table.Print();
+        //// 출력.
+        //table.Print();
 
-        // 검색.
-        if (table.Find("Ronnie", out Pair<string, string> pair))
+        //// 검색.
+        //if (table.Find("Ronnie", out Pair<string, string> pair))
+        //{
+        //    Console.WriteLine($"검색결과: {pair.Key}, {pair.Value}");
+        //}
+
+        //// 삭제.
+        //table.Delete("Ronnie");
+        //table.Delete("Kevin");
+
+        //// 출력.
+        //table.Print();
+
+        // 게임에서 활용할 가능성이 있으니 기억해두면 좋다.
+        // 게임에서 일정 범위 내에서 반복되는 인덱스가 필요한 경우에.
+        int index = 0;
+        int count = 19;
+        while (true)
         {
-            Console.WriteLine($"검색결과: {pair.Key}, {pair.Value}");
+            index++;
+            Console.WriteLine($"index: {index}, index % count = {index % count}");
+            Thread.Sleep(200);
         }
-
-        // 삭제.
-        table.Delete("Ronnie");
-        table.Delete("Kevin");
-        
-        // 출력.
-        table.Print();
         Console.ReadKey();
     }
 }
