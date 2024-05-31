@@ -55,7 +55,8 @@ public class Tree<T>
         child.Parent.AddChild(child);
     }
 
-    // 탐색(검색) - 인터페이스..
+    // 탐색(검색) - 인터페이스.
+    // 우리는 전위순회 방식으로 구현했다.
     // 재귀.
     public bool Find(T data, out Node<T> outNode)
     {
